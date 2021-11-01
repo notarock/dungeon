@@ -13,14 +13,15 @@ vet:
 	go vet ./...
 
 fmt:
-	go list -f '{{.Dir}}' ./... | grep -v /vendor/ | xargs -L1 gofmt -l
-	test -z $$(go list -f '{{.Dir}}' ./... | grep -v /vendor/ | xargs -L1 gofmt -l)
+	gofumpt -w **/**.go
 
 lint:
-	go list ./... | grep -v /vendor/ | xargs -L1 golint -set_exit_status
+	go list ./... | xargs -L1 golint -set_exit_status
 
 build:
-	go build -o bin/api ./cmd/api
-	go build -o bin/worker ./cmd/worker
+	go build -o bin/dungeon
+
+run:
+	go run main.go
 
 # end
