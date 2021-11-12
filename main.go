@@ -6,8 +6,7 @@ import (
 )
 
 func main() {
+	room := dungeon.NewRoom(false, false, false, false)
 
-
-	fmt.Println(dungeon.ToString(room1))
-	fmt.Println(dungeon.ToString(room2))
+	fmt.Println(room.ToString())
 }

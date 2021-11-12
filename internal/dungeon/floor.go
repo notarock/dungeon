@@ -36,8 +36,6 @@ func generateCanvas() [][]Tile {
 	var canvas [][]Tile
 
 	for i := 0; i < x; i++ {
-		row := make([]Tile, y)
-
 		for j := 0; j < y; j++ {
 			canvas[i][j] = Empty
 		}
