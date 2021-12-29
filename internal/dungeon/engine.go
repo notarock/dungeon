@@ -36,7 +36,7 @@ func Main() {
 func layout(g *gocui.Gui) error {
 	gameX := len(floor)
 	gameY := len(floor[0])
-	if v, err := g.SetView("game", 0, 0, gameX, gameY); err != nil {
+	if v, err := g.SetView("game", 0, 0, gameY+1, gameX+1); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
