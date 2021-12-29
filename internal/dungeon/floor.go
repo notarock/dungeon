@@ -1,12 +1,12 @@
 package dungeon
 
 import (
-	// "fmt"
-	"fmt"
 	"math/rand"
+	"time"
 )
 
 type Tile int
+
 const (
 	Empty Tile = iota + 1
 	Floor
@@ -15,33 +15,47 @@ const (
 )
 
 const (
-	MIN_X = 20
-	MAX_X = 90
-	MIN_Y = 20
-	MAX_Y = 90
+	MIN_X = 10
+	MAX_X = 45
+	MIN_Y = 10
+	MAX_Y = 45
 )
 
+var TILE_CHARSET = map[Tile]string{
+	Empty:   " ",
+	Floor:   "░",
+	Wall:    "█",
+	Hallway: "+",
+}
+
 func randomX() int {
-	return rand.Intn(MAX_X - MIN_X) + MIN_X
+	return (rand.Intn(MAX_X-MIN_X) + MIN_X)
 }
 
 func randomY() int {
-	return rand.Intn(MAX_Y - MIN_Y) + MIN_Y
+	return (rand.Intn(MAX_Y-MIN_Y) + MIN_Y)
 }
 
-func generateCanvas() [][]Tile {
+func GenerateCanvas() [][]Tile {
+	rand.Seed(time.Now().UnixNano())
 	x := randomX()
 	y := randomY()
 
-	var canvas [][]Tile
+	canvas := make([][]Tile, x)
+	for i := range canvas {
+		canvas[i] = make([]Tile, y)
+	}
 
 	for i := 0; i < x; i++ {
 		for j := 0; j < y; j++ {
-			canvas[i][j] = Empty
+			canvas[i][j] = Floor
 		}
 	}
 
-	fmt.Printf("canvas: %v\n", canvas)
+	for i := 0; i < x; i++ {
+		canvas[i][0] = Wall
+		canvas[i][len(canvas[0])-1] = Wall
+	}
 
 	return canvas
 }
