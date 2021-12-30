@@ -24,6 +24,21 @@ func Main() {
 
 	g.SetManagerFunc(layout)
 
+	if err := g.SetKeybinding("", gocui.KeyArrowUp, gocui.ModNone, moveUp); err != nil {
+		log.Panicln(err)
+	}
+
+	if err := g.SetKeybinding("", gocui.KeyArrowDown, gocui.ModNone, moveDown); err != nil {
+		log.Panicln(err)
+	}
+
+	if err := g.SetKeybinding("", gocui.KeyArrowLeft, gocui.ModNone, moveLeft); err != nil {
+		log.Panicln(err)
+	}
+	if err := g.SetKeybinding("", gocui.KeyArrowRight, gocui.ModNone, moveRight); err != nil {
+		log.Panicln(err)
+	}
+
 	if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); err != nil {
 		log.Panicln(err)
 	}
@@ -31,6 +46,34 @@ func Main() {
 	if err := g.MainLoop(); err != nil && err != gocui.ErrQuit {
 		log.Panicln(err)
 	}
+}
+
+func moveLeft(g *gocui.Gui, v *gocui.View) error {
+	player.Move(floor, Left)
+	dv, _ := g.View("game")
+	redrawMap(dv)
+	return nil
+}
+
+func moveRight(g *gocui.Gui, v *gocui.View) error {
+	player.Move(floor, Right)
+	dv, _ := g.View("game")
+	redrawMap(dv)
+	return nil
+}
+
+func moveUp(g *gocui.Gui, v *gocui.View) error {
+	player.Move(floor, Up)
+	dv, _ := g.View("game")
+	redrawMap(dv)
+	return nil
+}
+
+func moveDown(g *gocui.Gui, v *gocui.View) error {
+	player.Move(floor, Down)
+	dv, _ := g.View("game")
+	redrawMap(dv)
+	return nil
 }
 
 func layout(g *gocui.Gui) error {
@@ -47,6 +90,11 @@ func layout(g *gocui.Gui) error {
 
 func quit(g *gocui.Gui, v *gocui.View) error {
 	return gocui.ErrQuit
+}
+
+func redrawMap(gv *gocui.View) {
+	gv.Clear()
+	gv.Write([]byte(drawMap(floor, player)))
 }
 
 func drawMap(floor [][]Tile, player Player) string {
