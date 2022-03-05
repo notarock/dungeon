@@ -28,6 +28,11 @@ var TILE_CHARSET = map[Tile]string{
 	Hallway: "+",
 }
 
+type Level struct {
+	tiles          [][]Tile
+	RootPartitions BspNode
+}
+
 func randomX() int {
 	return (rand.Intn(MAX_X-MIN_X) + MIN_X)
 }

@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	dungeon.Main()
+	dungeon.InitGame()
 }

@@ -6,12 +6,12 @@ import (
 )
 
 func TestGenerateCanvas(t *testing.T) {
-	canvas := generateCanvas()
+	canvas := GenerateCanvas()
 	lenX := len(canvas)
 	lenY := len(canvas[0])
 	assert.Assert(t, lenX != 0)
 	assert.Assert(t, lenY != 0)
 
-	assert.Equal(t, canvas[0][0], Empty)
-	assert.Equal(t, canvas[lenX][lenY], Empty)
+	assert.Equal(t, canvas[0][0], Wall)
+	assert.Equal(t, canvas[lenX-1][lenY-1], Wall)
 }

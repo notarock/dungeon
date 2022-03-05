@@ -9,7 +9,7 @@ import (
 var floor [][]Tile
 var player Player
 
-func Main() {
+func InitGame() {
 	floor = GenerateCanvas()
 
 	gameX := len(floor)

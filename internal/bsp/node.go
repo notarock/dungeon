@@ -1,6 +1,0 @@
-package bsp
-
-import (
-	"fmt"
-)
-
