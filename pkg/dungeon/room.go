@@ -8,7 +8,7 @@ type Room struct {
 
 // toStringOpening takes in a door bolean and responds with a character
 // to paint either a wall or a door (opening)
-func (o opening)toString() string {
+func (o opening) toString() string {
 	if o {
 		return " "
 	}
@@ -28,6 +28,6 @@ func NewRoom(n, s, e, w opening) *Room {
 }
 
 // ToString takes a room, and create a string reprentation for it.
-func (r Room)ToString() string {
+func (r Room) ToString() string {
 	return "@" + r.North.toString() + "@\n" + r.East.toString() + " " + r.West.toString() + "\n" + "@" + r.South.toString() + "@"
 }
