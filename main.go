@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/notarock/dungeon/internal/dungeon"
+	"github.com/notarock/dungeon/pkg/engine"
 )
 
 func main() {
-	dungeon.InitGame()
+	engine.InitGame()
 }

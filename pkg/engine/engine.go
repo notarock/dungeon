@@ -1,20 +1,33 @@
-package dungeon
+package engine
 
 import (
 	"fmt"
 	"github.com/jroimartin/gocui"
+	"github.com/notarock/dungeon/pkg/dungeon"
+	"github.com/notarock/dungeon/pkg/player"
 	"log"
 )
 
-var floor [][]Tile
-var player Player
+var TILE_CHARSET = map[dungeon.Tile]string{
+	dungeon.Empty:   " ",
+	dungeon.Floor:   "░",
+	dungeon.Wall:    "█",
+	dungeon.Hallway: "+",
+}
+
+var floor [][]dungeon.Tile
+var gamePlayer player.Player
 
 func InitGame() {
-	floor = GenerateCanvas()
+	floor = dungeon.GenerateCanvas()
 
 	gameX := len(floor)
 	gameY := len(floor[0])
-	player = InitPlayer(gameX, gameY)
+	p, err := player.InitPlayer(gameX/2, gameY/2)
+	if err != nil {
+		log.Panicln(err)
+	}
+	gamePlayer = p
 
 	g, err := gocui.NewGui(gocui.OutputNormal)
 	if err != nil {
@@ -49,28 +62,28 @@ func InitGame() {
 }
 
 func moveLeft(g *gocui.Gui, v *gocui.View) error {
-	player.Move(floor, Left)
+	gamePlayer.Move(player.Left)
 	dv, _ := g.View("game")
 	redrawMap(dv)
 	return nil
 }
 
 func moveRight(g *gocui.Gui, v *gocui.View) error {
-	player.Move(floor, Right)
+	gamePlayer.Move(player.Right)
 	dv, _ := g.View("game")
 	redrawMap(dv)
 	return nil
 }
 
 func moveUp(g *gocui.Gui, v *gocui.View) error {
-	player.Move(floor, Up)
+	gamePlayer.Move(player.Up)
 	dv, _ := g.View("game")
 	redrawMap(dv)
 	return nil
 }
 
 func moveDown(g *gocui.Gui, v *gocui.View) error {
-	player.Move(floor, Down)
+	gamePlayer.Move(player.Down)
 	dv, _ := g.View("game")
 	redrawMap(dv)
 	return nil
@@ -83,7 +96,7 @@ func layout(g *gocui.Gui) error {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		fmt.Fprintln(v, drawMap(floor, player))
+		fmt.Fprintln(v, drawMap(floor, gamePlayer))
 	}
 	return nil
 }
@@ -94,14 +107,14 @@ func quit(g *gocui.Gui, v *gocui.View) error {
 
 func redrawMap(gv *gocui.View) {
 	gv.Clear()
-	gv.Write([]byte(drawMap(floor, player)))
+	gv.Write([]byte(drawMap(floor, gamePlayer)))
 }
 
-func drawMap(floor [][]Tile, player Player) string {
+func drawMap(floor [][]dungeon.Tile, p player.Player) string {
 	var drawn string
 	for x, row := range floor {
 		for y, tile := range row {
-			if x == player.PosX && y == player.PosY {
+			if x == p.GetX() && y == p.GetY() {
 				drawn += "@"
 			} else {
 				drawn += TILE_CHARSET[tile]

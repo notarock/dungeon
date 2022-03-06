@@ -1,7 +1,7 @@
 package dungeon_test
 
 import (
-	"github.com/notarock/dungeon/internal/dungeon"
+	"github.com/notarock/dungeon/pkg/dungeon"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

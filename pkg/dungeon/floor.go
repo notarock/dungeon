@@ -21,13 +21,6 @@ const (
 	MAX_Y = 45
 )
 
-var TILE_CHARSET = map[Tile]string{
-	Empty:   " ",
-	Floor:   "░",
-	Wall:    "█",
-	Hallway: "+",
-}
-
 type Level struct {
 	tiles          [][]Tile
 	RootPartitions BspNode
