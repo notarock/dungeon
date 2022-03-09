@@ -2,7 +2,6 @@ package dungeon
 
 import (
 	"math/rand"
-	"time"
 )
 
 type Tile int
@@ -21,11 +20,6 @@ const (
 	MAX_Y = 45
 )
 
-type Level struct {
-	tiles          [][]Tile
-	RootPartitions BspNode
-}
-
 func randomX() int {
 	return (rand.Intn(MAX_X-MIN_X) + MIN_X)
 }
@@ -34,11 +28,7 @@ func randomY() int {
 	return (rand.Intn(MAX_Y-MIN_Y) + MIN_Y)
 }
 
-func GenerateCanvas() [][]Tile {
-	rand.Seed(time.Now().UnixNano())
-	x := randomX()
-	y := randomY()
-
+func GenerateEmptyTile(x, y int) [][]Tile {
 	canvas := make([][]Tile, x)
 	for i := range canvas {
 		canvas[i] = make([]Tile, y)
@@ -46,13 +36,18 @@ func GenerateCanvas() [][]Tile {
 
 	for i := 0; i < x; i++ {
 		for j := 0; j < y; j++ {
-			canvas[i][j] = Floor
+			canvas[i][j] = Empty
 		}
 	}
 
 	for i := 0; i < x; i++ {
 		canvas[i][0] = Wall
 		canvas[i][len(canvas[0])-1] = Wall
+	}
+
+	for i := 0; i < y; i++ {
+		canvas[0][i] = Wall
+		canvas[len(canvas)-1][i] = Wall
 	}
 
 	return canvas

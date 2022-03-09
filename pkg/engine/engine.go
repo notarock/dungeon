@@ -15,14 +15,14 @@ var TILE_CHARSET = map[dungeon.Tile]string{
 	dungeon.Hallway: "+",
 }
 
-var floor [][]dungeon.Tile
+var floor dungeon.Map
 var gamePlayer player.Player
 
 func InitGame() {
-	floor = dungeon.GenerateCanvas()
+	floor, _ = dungeon.NewMap()
 
-	gameX := len(floor)
-	gameY := len(floor[0])
+	gameX := len(floor.Tiles)
+	gameY := len(floor.Tiles[0])
 	p, err := player.InitPlayer(gameX/2, gameY/2)
 	if err != nil {
 		log.Panicln(err)
@@ -90,13 +90,13 @@ func moveDown(g *gocui.Gui, v *gocui.View) error {
 }
 
 func layout(g *gocui.Gui) error {
-	gameX := len(floor)
-	gameY := len(floor[0])
+	gameX := len(floor.Tiles)
+	gameY := len(floor.Tiles[0])
 	if v, err := g.SetView("game", 0, 0, gameY+1, gameX+1); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		fmt.Fprintln(v, drawMap(floor, gamePlayer))
+		fmt.Fprintln(v, drawMap(floor.Tiles, gamePlayer))
 	}
 	return nil
 }
@@ -107,7 +107,7 @@ func quit(g *gocui.Gui, v *gocui.View) error {
 
 func redrawMap(gv *gocui.View) {
 	gv.Clear()
-	gv.Write([]byte(drawMap(floor, gamePlayer)))
+	gv.Write([]byte(drawMap(floor.Tiles, gamePlayer)))
 }
 
 func drawMap(floor [][]dungeon.Tile, p player.Player) string {

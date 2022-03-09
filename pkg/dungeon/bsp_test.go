@@ -10,7 +10,7 @@ func TestPartition(t *testing.T) {
 	bspNode := dungeon.NewBspNode(5, 100, 5, 100)
 
 	t.Run("Depth of 1", func(t *testing.T) {
-		bspNode.Partition(1)
+		bspNode.Partition(1, 100)
 
 		assert.NotNil(t, bspNode.Back)
 		assert.NotNil(t, bspNode.Front)

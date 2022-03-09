@@ -1,6 +1,9 @@
 package dungeon
 
-import ()
+import (
+	"math/rand"
+	"time"
+)
 
 type BspNode struct {
 	Front *BspNode
@@ -26,25 +29,49 @@ func NewBspNode(minx, maxx, miny, maxy int) BspNode {
 	return bn
 }
 
-func (bn *BspNode) Partition(depth int) {
+func (bn *BspNode) Partition(depth int, chancesPercent int) {
 	if depth <= 0 {
 		return
 	}
 
-	bn.Back = &BspNode{
-		minx: bn.minx,
-		maxx: (bn.minx + bn.maxx/2),
-		miny: bn.miny,
-		maxy: (bn.miny + bn.maxy/2),
-	}
-	bn.Front = &BspNode{
-		minx: bn.minx + bn.maxx/2,
-		maxx: bn.maxx,
-		miny: bn.miny + bn.maxy/2,
-		maxy: bn.maxy,
+	rand.Seed(time.Now().UnixNano())
+	roll := rand.Intn(100) + 1
+	if chancesPercent <= roll {
+		return
 	}
 
-	bn.Back.Partition(depth - 1)
-	bn.Front.Partition(depth - 1)
+	lenx := bn.maxx - bn.minx
+	leny := bn.maxy - bn.miny
+
+	if lenx > leny {
+		bn.Back = &BspNode{
+			minx: bn.minx,
+			maxx: (bn.minx + lenx/2),
+			miny: bn.miny,
+			maxy: bn.maxy,
+		}
+		bn.Front = &BspNode{
+			minx: bn.minx + lenx/2,
+			maxx: bn.maxx,
+			miny: bn.miny,
+			maxy: bn.maxy,
+		}
+	} else {
+		bn.Back = &BspNode{
+			minx: bn.minx,
+			maxx: bn.maxx,
+			miny: bn.miny,
+			maxy: (bn.miny + leny/2),
+		}
+		bn.Front = &BspNode{
+			minx: bn.minx,
+			maxx: bn.maxx,
+			miny: bn.miny + leny/2,
+			maxy: bn.maxy,
+		}
+	}
+
+	bn.Back.Partition(depth-1, chancesPercent)
+	bn.Front.Partition(depth-1, chancesPercent)
 
 }
