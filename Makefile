@@ -7,10 +7,10 @@
 all: build test vet fmt lint build
 
 run:
-	go run main.go
+	go run cmd/main.go
 
 build:
-	go build -o bin/dungeon
+	go build -o ./bin/dungeon ./cmd	
 
 test:
 	go test ./...
