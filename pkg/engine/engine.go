@@ -6,18 +6,17 @@ import (
 
 	"github.com/jroimartin/gocui"
 	"github.com/notarock/dungeon/pkg/dungeon"
-	"github.com/notarock/dungeon/pkg/game"
 )
 
 var floor dungeon.Map
-var gamePlayer game.Player
+var gamePlayer dungeon.Player
 
 func InitGame() {
 	floor, _ = dungeon.NewMap()
 
 	gameX := len(floor.Tiles)
 	gameY := len(floor.Tiles[0])
-	p, err := game.InitPlayer(gameX/2, gameY/2)
+	p, err := dungeon.InitPlayer(gameX/2, gameY/2)
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -56,28 +55,28 @@ func InitGame() {
 }
 
 func moveLeft(g *gocui.Gui, v *gocui.View) error {
-	gamePlayer.Move(game.Left)
+	gamePlayer.Move(dungeon.Left)
 	dv, _ := g.View("game")
 	redrawMap(dv)
 	return nil
 }
 
 func moveRight(g *gocui.Gui, v *gocui.View) error {
-	gamePlayer.Move(game.Right)
+	gamePlayer.Move(dungeon.Right)
 	dv, _ := g.View("game")
 	redrawMap(dv)
 	return nil
 }
 
 func moveUp(g *gocui.Gui, v *gocui.View) error {
-	gamePlayer.Move(game.Up)
+	gamePlayer.Move(dungeon.Up)
 	dv, _ := g.View("game")
 	redrawMap(dv)
 	return nil
 }
 
 func moveDown(g *gocui.Gui, v *gocui.View) error {
-	gamePlayer.Move(game.Down)
+	gamePlayer.Move(dungeon.Down)
 	dv, _ := g.View("game")
 	redrawMap(dv)
 	return nil
@@ -90,7 +89,7 @@ func layout(g *gocui.Gui) error {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		fmt.Fprintln(v, game.DrawMap(floor.Tiles, gamePlayer))
+		fmt.Fprintln(v, dungeon.DrawMap(floor.Tiles, gamePlayer))
 	}
 	return nil
 }
@@ -101,5 +100,5 @@ func quit(g *gocui.Gui, v *gocui.View) error {
 
 func redrawMap(gv *gocui.View) {
 	gv.Clear()
-	gv.Write([]byte(game.DrawMap(floor.Tiles, gamePlayer)))
+	gv.Write([]byte(dungeon.DrawMap(floor.Tiles, gamePlayer)))
 }

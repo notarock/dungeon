@@ -2,12 +2,14 @@ package dungeon
 
 import (
 	"log"
+
+	"github.com/notarock/dungeon/pkg/dungeon/tile"
 )
 
 // GenerateMap create a bunch of rooms and stick them together to create a dungeon
 // Not implemented yet
 type Map struct {
-	Tiles [][]Tile
+	Tiles [][]tile.Tile
 }
 
 const (
@@ -50,13 +52,13 @@ func (m *Map) MakeRoom(x1, x2, y1, y2 int) error {
 	tiles := m.Tiles
 
 	for i := x1; i < x2; i++ {
-		tiles[i][y1] = Wall
-		tiles[i][y2-1] = Wall
+		tiles[i][y1] = tile.TileWall{}
+		tiles[i][y2-1] = tile.TileWall{}
 	}
 
 	for i := y1; i < y2; i++ {
-		tiles[x1][i] = Wall
-		tiles[x2-1][i] = Wall
+		tiles[x1][i] = tile.TileWall{}
+		tiles[x2-1][i] = tile.TileWall{}
 	}
 
 	m.Tiles = tiles

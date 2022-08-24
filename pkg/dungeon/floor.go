@@ -2,16 +2,11 @@ package dungeon
 
 import (
 	"math/rand"
+
+	"github.com/notarock/dungeon/pkg/dungeon/tile"
 )
 
 type Tile int
-
-const (
-	Empty Tile = iota + 1
-	Floor
-	Wall
-	Hallway
-)
 
 const (
 	MIN_X = 10
@@ -28,15 +23,15 @@ func randomY() int {
 	return (rand.Intn(MAX_Y-MIN_Y) + MIN_Y)
 }
 
-func GenerateEmptyTile(x, y int) [][]Tile {
-	canvas := make([][]Tile, x)
+func GenerateEmptyTile(x, y int) [][]tile.Tile {
+	canvas := make([][]tile.Tile, x)
 	for i := range canvas {
-		canvas[i] = make([]Tile, y)
+		canvas[i] = make([]tile.Tile, y)
 	}
 
 	for i := 0; i < x; i++ {
 		for j := 0; j < y; j++ {
-			canvas[i][j] = Empty
+			canvas[i][j] = tile.TileEmpty{}
 		}
 	}
 
