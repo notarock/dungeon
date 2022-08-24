@@ -6,5 +6,6 @@ mkShell {
   buildInputs = [
     gofumpt
     golint
+    SDL2
   ];
 }

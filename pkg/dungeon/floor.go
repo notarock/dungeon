@@ -40,15 +40,15 @@ func GenerateEmptyTile(x, y int) [][]Tile {
 		}
 	}
 
-	for i := 0; i < x; i++ {
-		canvas[i][0] = Wall
-		canvas[i][len(canvas[0])-1] = Wall
-	}
+	// for i := 0; i < x; i++ {
+	// 	canvas[i][0] = Wall
+	// 	canvas[i][len(canvas[0])-1] = Wall
+	// }
 
-	for i := 0; i < y; i++ {
-		canvas[0][i] = Wall
-		canvas[len(canvas)-1][i] = Wall
-	}
+	// for i := 0; i < y; i++ {
+	// 	canvas[0][i] = Wall
+	// 	canvas[len(canvas)-1][i] = Wall
+	// }
 
 	return canvas
 }
