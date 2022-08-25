@@ -1,26 +1,18 @@
 package engine
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/jroimartin/gocui"
 	"github.com/notarock/dungeon/pkg/dungeon"
 )
 
-var floor dungeon.Map
-var gamePlayer dungeon.Player
+var game dungeon.Game
 
 func InitGame() {
-	floor, _ = dungeon.NewMap()
+	var err error
 
-	gameX := len(floor.Tiles)
-	gameY := len(floor.Tiles[0])
-	p, err := dungeon.InitPlayer(gameX/2, gameY/2)
-	if err != nil {
-		log.Panicln(err)
-	}
-	gamePlayer = p
+	game, err = dungeon.NewGame()
 
 	g, err := gocui.NewGui(gocui.OutputNormal)
 	if err != nil {
@@ -55,41 +47,39 @@ func InitGame() {
 }
 
 func moveLeft(g *gocui.Gui, v *gocui.View) error {
-	gamePlayer.Move(dungeon.Left)
+	game.Move(dungeon.Left)
 	dv, _ := g.View("game")
 	redrawMap(dv)
 	return nil
 }
 
 func moveRight(g *gocui.Gui, v *gocui.View) error {
-	gamePlayer.Move(dungeon.Right)
+	game.Move(dungeon.Right)
 	dv, _ := g.View("game")
 	redrawMap(dv)
 	return nil
 }
 
 func moveUp(g *gocui.Gui, v *gocui.View) error {
-	gamePlayer.Move(dungeon.Up)
+	game.Move(dungeon.Up)
 	dv, _ := g.View("game")
 	redrawMap(dv)
 	return nil
 }
 
 func moveDown(g *gocui.Gui, v *gocui.View) error {
-	gamePlayer.Move(dungeon.Down)
+	game.Move(dungeon.Down)
 	dv, _ := g.View("game")
 	redrawMap(dv)
 	return nil
 }
 
 func layout(g *gocui.Gui) error {
-	gameX := len(floor.Tiles)
-	gameY := len(floor.Tiles[0])
-	if v, err := g.SetView("game", 0, 0, gameY+1, gameX+1); err != nil {
+	gameX, gameY := game.GetMapSize()
+	if _, err := g.SetView("game", 0, 0, gameY+1, gameX+1); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		fmt.Fprintln(v, dungeon.DrawMap(floor.Tiles, gamePlayer))
 	}
 	return nil
 }
@@ -100,5 +90,5 @@ func quit(g *gocui.Gui, v *gocui.View) error {
 
 func redrawMap(gv *gocui.View) {
 	gv.Clear()
-	gv.Write([]byte(dungeon.DrawMap(floor.Tiles, gamePlayer)))
+	gv.Write([]byte(game.DrawGame()))
 }

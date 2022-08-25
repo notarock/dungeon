@@ -29,6 +29,16 @@ func NewBspNode(minx, maxx, miny, maxy int) BspNode {
 	return bn
 }
 
+func (bn BspNode) GetStartingCoords() (x, y int) {
+	if bn.Back != nil {
+		return bn.Back.GetStartingCoords()
+	}
+
+	x = bn.minx + ((bn.maxx - bn.minx) / 2)
+	y = bn.miny + ((bn.maxy - bn.miny) / 2)
+	return x, y
+}
+
 func (bn *BspNode) Partition(depth int, chancesPercent int) {
 	if depth <= 0 {
 		return

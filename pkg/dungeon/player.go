@@ -29,16 +29,3 @@ func InitPlayer(x, y int) (Player, error) {
 
 	return p, nil
 }
-
-func (p *Player) Move(d moveDirection) {
-	switch d {
-	case Up:
-		p.xPosition -= 1
-	case Down:
-		p.xPosition += 1
-	case Left:
-		p.yPosition -= 1
-	case Right:
-		p.yPosition += 1
-	}
-}

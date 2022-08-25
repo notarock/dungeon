@@ -6,27 +6,25 @@ import (
 	"github.com/notarock/dungeon/pkg/dungeon/tile"
 )
 
-// GenerateMap create a bunch of rooms and stick them together to create a dungeon
-// Not implemented yet
-type Map struct {
-	Tiles [][]tile.Tile
-}
-
 const (
 	mapx = 40
 	mapy = 100
 )
 
-func NewMap() (Map, error) {
+func NewMap() *Map {
 	tiles := GenerateEmptyTile(mapx, mapy)
 	m := Map{Tiles: tiles}
 	b := NewBspNode(0, mapx, 0, mapy)
 
-	b.Partition(5, 50)
-
+	b.Partition(5, 75)
 	m.MakeRooms(b)
 
-	return m, nil
+	sx, sy := b.GetStartingCoords()
+
+	m.StartX = sx
+	m.StartY = sy
+
+	return &m
 }
 
 func (m *Map) MakeRooms(bsp BspNode) {

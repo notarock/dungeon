@@ -9,7 +9,7 @@ func (t TileEmpty) GetType() string {
 }
 
 func (t TileEmpty) Walkable() bool {
-	return false
+	return true
 }
 
 func (t TileEmpty) DrawTile() string {
