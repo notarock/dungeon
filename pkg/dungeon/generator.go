@@ -54,11 +54,13 @@ func (m *Map) MakeRoom(x1, x2, y1, y2 int) error {
 	for i := x1; i < x2; i++ {
 		tiles[i][y1] = tile.TileWall{}
 		tiles[i][y2-1] = tile.TileWall{}
+		tiles[i][y2-2] = tile.TileWall{}
 	}
 
 	for i := y1; i < y2; i++ {
 		tiles[x1][i] = tile.TileWall{}
 		tiles[x2-1][i] = tile.TileWall{}
+		tiles[x2-2][i] = tile.TileWall{}
 	}
 
 	m.Tiles = tiles

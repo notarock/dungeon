@@ -71,7 +71,6 @@ func (g *Game) Move(d moveDirection) error {
 		if tile.Walkable() {
 			g.player.yPosition += 1
 		}
-
 	}
 
 	return nil
