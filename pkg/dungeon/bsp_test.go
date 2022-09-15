@@ -1,9 +1,10 @@
 package dungeon_test
 
 import (
+	"testing"
+
 	"github.com/notarock/dungeon/pkg/dungeon"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestPartition(t *testing.T) {
@@ -17,10 +18,10 @@ func TestPartition(t *testing.T) {
 
 		assert.Equal(t, 5, bspNode.Back.GetMinx())
 		assert.Equal(t, 5, bspNode.Back.GetMiny())
-		assert.Equal(t, 55, bspNode.Back.GetMaxx())
-		assert.Equal(t, 55, bspNode.Back.GetMaxy())
-		assert.Equal(t, 55, bspNode.Front.GetMinx())
-		assert.Equal(t, 55, bspNode.Front.GetMiny())
+		assert.Equal(t, 100, bspNode.Back.GetMaxx())
+		assert.Equal(t, 52, bspNode.Back.GetMaxy())
+		assert.Equal(t, 5, bspNode.Front.GetMinx())
+		assert.Equal(t, 52, bspNode.Front.GetMiny())
 		assert.Equal(t, 100, bspNode.Front.GetMaxx())
 		assert.Equal(t, 100, bspNode.Front.GetMaxy())
 	})
