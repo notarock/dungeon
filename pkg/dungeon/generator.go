@@ -52,15 +52,15 @@ func (m *Map) MakeRoom(x1, x2, y1, y2 int) error {
 	tiles := m.Tiles
 
 	for i := x1; i < x2; i++ {
-		tiles[i][y1] = tile.TileWall{}
-		tiles[i][y2-1] = tile.TileWall{}
-		tiles[i][y2-2] = tile.TileWall{}
+		tiles[i][y1] = tile.NewWallTile()
+		tiles[i][y2-1] = tile.NewWallTile()
+		tiles[i][y2-2] = tile.NewWallTile()
 	}
 
 	for i := y1; i < y2; i++ {
-		tiles[x1][i] = tile.TileWall{}
-		tiles[x2-1][i] = tile.TileWall{}
-		tiles[x2-2][i] = tile.TileWall{}
+		tiles[x1][i] = tile.NewWallTile()
+		tiles[x2-1][i] = tile.NewWallTile()
+		tiles[x2-2][i] = tile.NewWallTile()
 	}
 
 	m.Tiles = tiles
@@ -83,29 +83,25 @@ func (m *Map) joinRooms(bsp BspNode) {
 	case sx == dx:
 		if sy < dy {
 			for i := 0; i < (dy - sy); i++ {
-				m.Tiles[sx][sy+i] = tile.TileFloor{}
+				m.Tiles[sx][sy+i] = tile.NewFloorTile()
 			}
 		} else {
 			for i := 0; i < (sy - dy); i++ {
-				m.Tiles[sx][dy+i] = tile.TileFloor{}
+				m.Tiles[sx][dy+i] = tile.NewFloorTile()
 			}
 		}
 	case sy == dy:
 		if sy > dy {
 			for i := 0; i < (dx - sx); i++ {
-				m.Tiles[sx+i][sy] = tile.TileFloor{}
+				m.Tiles[sx+i][sy] = tile.NewFloorTile()
 			}
 		} else {
 			for i := 0; i < (sx - dx); i++ {
-				m.Tiles[dx+i][sy] = tile.TileFloor{}
+				m.Tiles[dx+i][sy] = tile.NewFloorTile()
 			}
 		}
 	}
 
-	// m.Tiles[sx][sy] = tile.TileWall{}
-	// m.Tiles[dx][dy] = tile.TileWall{}
-
 	m.joinRooms(*bsp.Front)
 	m.joinRooms(*bsp.Back)
-
 }

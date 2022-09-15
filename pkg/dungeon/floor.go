@@ -31,7 +31,7 @@ func GenerateEmptyTile(x, y int) [][]tile.Tile {
 
 	for i := 0; i < x; i++ {
 		for j := 0; j < y; j++ {
-			canvas[i][j] = tile.TileFloor{}
+			canvas[i][j] = tile.NewFloorTile()
 		}
 	}
 

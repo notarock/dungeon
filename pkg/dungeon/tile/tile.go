@@ -1,7 +1,29 @@
 package tile
 
-type Tile interface {
-	GetType() string
-	Walkable() bool
-	DrawTile() string
+type Tile struct {
+	tileType string
+	lit      bool
+	walkable bool
+}
+
+func (t Tile) GetType() string {
+	return t.tileType
+}
+
+func (t Tile) IsWalkable() bool {
+	return t.walkable
+}
+
+func (t Tile) DrawTile() string {
+	tile, _ := TILE_CHARACTERS_MAP[t.tileType]
+	return tile
+}
+
+func (t Tile) Visible() bool {
+	return t.lit
+}
+
+func (t *Tile) LightUp() {
+	t.lit = true
+	return
 }

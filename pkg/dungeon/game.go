@@ -41,7 +41,7 @@ func (g *Game) Move(d moveDirection) error {
 			return fmt.Errorf("could not retreive destination game tile of player move: %v", err)
 		}
 
-		if tile.Walkable() {
+		if tile.IsWalkable() {
 			g.player.xPosition -= 1
 		}
 	case Down:
@@ -50,7 +50,7 @@ func (g *Game) Move(d moveDirection) error {
 			return fmt.Errorf("could not retreive destination game tile of player move: %v", err)
 		}
 
-		if tile.Walkable() {
+		if tile.IsWalkable() {
 			g.player.xPosition += 1
 		}
 	case Left:
@@ -59,7 +59,7 @@ func (g *Game) Move(d moveDirection) error {
 			return fmt.Errorf("could not retreive destination game tile of player move: %v", err)
 		}
 
-		if tile.Walkable() {
+		if tile.IsWalkable() {
 			g.player.yPosition -= 1
 		}
 	case Right:
@@ -68,7 +68,7 @@ func (g *Game) Move(d moveDirection) error {
 			return fmt.Errorf("could not retreive destination game tile of player move: %v", err)
 		}
 
-		if tile.Walkable() {
+		if tile.IsWalkable() {
 			g.player.yPosition += 1
 		}
 	}
