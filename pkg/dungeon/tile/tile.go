@@ -15,6 +15,10 @@ func (t Tile) IsWalkable() bool {
 }
 
 func (t Tile) DrawTile() string {
+	if !t.Visible() {
+		return " "
+	}
+
 	tile, _ := TILE_CHARACTERS_MAP[t.tileType]
 	return tile
 }
@@ -25,5 +29,4 @@ func (t Tile) Visible() bool {
 
 func (t *Tile) LightUp() {
 	t.lit = true
-	return
 }

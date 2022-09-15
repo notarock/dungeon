@@ -34,43 +34,29 @@ func NewGame() (Game, error) {
 }
 
 func (g *Game) Move(d moveDirection) error {
+	var tx, ty int
+
 	switch d {
 	case Up:
-		tile, err := g.currentMap.GetTile(g.player.GetX()-1, g.player.GetY())
-		if err != nil {
-			return fmt.Errorf("could not retreive destination game tile of player move: %v", err)
-		}
-
-		if tile.IsWalkable() {
-			g.player.xPosition -= 1
-		}
+		tx, ty = g.player.GetX()-1, g.player.GetY()
 	case Down:
-		tile, err := g.currentMap.GetTile(g.player.GetX()+1, g.player.GetY())
-		if err != nil {
-			return fmt.Errorf("could not retreive destination game tile of player move: %v", err)
-		}
-
-		if tile.IsWalkable() {
-			g.player.xPosition += 1
-		}
+		tx, ty = g.player.GetX()+1, g.player.GetY()
 	case Left:
-		tile, err := g.currentMap.GetTile(g.player.GetX(), g.player.GetY()-1)
-		if err != nil {
-			return fmt.Errorf("could not retreive destination game tile of player move: %v", err)
-		}
-
-		if tile.IsWalkable() {
-			g.player.yPosition -= 1
-		}
+		tx, ty = g.player.GetX(), g.player.GetY()-1
 	case Right:
-		tile, err := g.currentMap.GetTile(g.player.GetX(), g.player.GetY()+1)
-		if err != nil {
-			return fmt.Errorf("could not retreive destination game tile of player move: %v", err)
-		}
+		tx, ty = g.player.GetX(), g.player.GetY()+1
+	}
 
-		if tile.IsWalkable() {
-			g.player.yPosition += 1
-		}
+	tile, err := g.currentMap.GetTile(tx, ty)
+	if err != nil {
+		return fmt.Errorf("could not retreive destination game tile of player move: %v", err)
+	}
+
+	if tile.IsWalkable() {
+		g.player.xPosition = tx
+		g.player.yPosition = ty
+
+		g.currentMap.LightAroundPosition(tx, ty)
 	}
 
 	return nil

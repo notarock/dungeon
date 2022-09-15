@@ -1,6 +1,8 @@
 package dungeon
 
 import (
+	"math"
+
 	"github.com/notarock/dungeon/pkg/dungeon/tile"
 )
 
@@ -38,4 +40,15 @@ func drawMap(floor [][]tile.Tile, p Player) string {
 	}
 
 	return drawn
+}
+
+func (m *Map) LightAroundPosition(tx, ty int) {
+	for i := int(math.Max(0, float64(tx-1))); i < int(math.Min(float64(tx+2), float64(len(m.Tiles)))); i++ {
+		for j := int(math.Max(0, float64(ty-1))); j < int(math.Min(float64(ty+2), float64(len(m.Tiles[0])))); j++ {
+			t := m.Tiles[i][j]
+			t.LightUp()
+			m.Tiles[i][j] = t
+		}
+	}
+
 }
