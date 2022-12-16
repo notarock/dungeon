@@ -53,9 +53,9 @@ func (g *Game) Move(d moveDirection) error {
 	}
 
 	if tile.IsWalkable() {
+		g.currentMap.ClearAroundPosition(g.player.GetX(), g.player.GetY())
 		g.player.xPosition = tx
 		g.player.yPosition = ty
-
 		g.currentMap.LightAroundPosition(tx, ty)
 	}
 
@@ -63,5 +63,7 @@ func (g *Game) Move(d moveDirection) error {
 }
 
 func (g Game) DrawGame() string {
-	return drawMap(g.currentMap.Tiles, g.player)
+	output := drawMap(g.currentMap.Tiles, g.player)
+
+	return output
 }

@@ -1,9 +1,10 @@
 package tile
 
 var TILE_CHARACTERS_MAP = map[string]string{
-	"EMPTY": " ",
-	"WALL":  "█",
-	"FLOOR": "░",
+	"EMPTY":                     " ",
+	"WALL":                      "█",
+	"FLOOR":                     "░",
+	"FLOOR" + IN_RANGE_MODIFIER: "▒",
 }
 
 func NewEmptyTile() Tile {
@@ -15,6 +16,14 @@ func NewEmptyTile() Tile {
 }
 
 func NewFloorTile() Tile {
+	return Tile{
+		tileType: "FLOOR",
+		lit:      false,
+		walkable: true,
+	}
+}
+
+func NewVisibleFloorTile() Tile {
 	return Tile{
 		tileType: "FLOOR",
 		lit:      false,
